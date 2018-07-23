@@ -41,6 +41,8 @@ class DeleteShopifyCustomers extends Command
     {
         $deleteIDs = [];
         $idIndexer = 0;
+        $fPath = __DIR__;
+        $fName = 'test.xlsx';
 
         $store = config('faceHalo.store');
         $key = config('faceHalo.key');
@@ -48,7 +50,7 @@ class DeleteShopifyCustomers extends Command
         $secret = config('faceHalo.secret');
         $faceHelo = new PrivateApp($store,$key,$pass,$secret);
 
-        $excelEmails = $this->getExcelEmails();
+        $excelEmails = $this->getExcelEmails($fPath, $fName);
 
         foreach($excelEmails as $excelEmail){
             try{
@@ -75,9 +77,9 @@ class DeleteShopifyCustomers extends Command
 
     }
 
-    public function getExcelEmails(){
+    public function getExcelEmails($fPath, $fName){
         $excel = App::make('excel');
-        $filePath = '/Users/dotdev/Desktop/test.xlsx';
+        $filePath = $fPath.$fName;
         $excelEmails = $excel->load($filePath, function ($reader){
             $data = $reader->select(array('email'))->get();
             $collection = collect($data);
