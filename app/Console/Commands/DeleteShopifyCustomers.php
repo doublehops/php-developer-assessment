@@ -77,7 +77,7 @@ class DeleteShopifyCustomers extends Command
 
     public function getExcelEmails(){
         $excel = App::make('excel');
-        $filePath = '/Users/dotdev/Desktop/test.xlsx';
+        $filePath = __DIR__ . '/ROW_Customer_List.xlsx';
         $excelEmails = $excel->load($filePath, function ($reader){
             $data = $reader->select(array('email'))->get();
             $collection = collect($data);
