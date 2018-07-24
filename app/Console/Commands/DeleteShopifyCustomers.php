@@ -39,10 +39,8 @@ class DeleteShopifyCustomers extends Command
      */
     public function handle()
     {
-        $deleteIDs = [];
-        $idIndexer = 0;
-        $filePath = __DIR__;
-        $fileName = 'test.xlsx';
+
+        ini_set('max_execution_time', 1200);
 
         $store = config('faceHalo.store');
         $key = config('faceHalo.key');
@@ -50,42 +48,39 @@ class DeleteShopifyCustomers extends Command
         $secret = config('faceHalo.secret');
         $faceHelo = new PrivateApp($store,$key,$pass,$secret);
 
-        $excelEmails = $this->getExcelEmails($filePath, $fileName);
+        try {
+            $excelEmails = $this->getExcelEmails();
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
 
         foreach($excelEmails as $excelEmail){
             try{
-                $response = $faceHelo->get('customers/search', ['query' => ['query' => 'email:'.$excelEmail['email']]]);
-                $deleteIDs[$idIndexer] = $response->customers[0]->id;
-                $idIndexer++;
+                $response = $faceHelo->get('customers/search', ['query' => ['query' => 'email:'.$excelEmail]]);
+                $customerId = $response->customers[0]->id;
+
+                $faceHelo->delete('customers/'.$customerId);
+                $this->info('customer '. $customerId .' deleted ' . $excelEmail);
             }catch (\Exception $e){
                 $this->info('errors: get shopify customers');
                 continue;
             }
         }
 
-        foreach($deleteIDs as $deleteID){
-            try{
-                $faceHelo->delete('customers/'.$deleteID);
-                $this->info('customer'.$deleteID.'deleted');
-            }catch (\Exception $e){
-                $this->info('errors: Error deleting customer');
-                continue;
-            }
-
-
-        }
 
     }
 
-    public function getExcelEmails($fPath, $fName){
-        $excel = App::make('excel');
-        $filePath = __DIR__. '/Customer.xlsx';
-        $excelEmails = $excel->load($filePath, function ($reader){
-            $data = $reader->select(array('email'))->get();
-            $collection = collect($data);
-            $flattened = $collection->flatten();
-            return $flattened->all();
-        })->toArray();
-        return $excelEmails;
+    public function getExcelEmails(){
+        try {
+
+            $filePath = 'test.csv';
+            $content = file_get_contents($filePath);
+
+            $lines = explode("\r", $content);
+            return $lines;
+
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
     }
 }
