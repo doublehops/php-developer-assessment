@@ -1,7 +1,7 @@
 <?php
 /*
 * DotDev - PHP Developer Test
-* Author:
+* Author: Damien Buttler
 * Date Completed:
 * Time taken: 0h 0m
 * Remarks:
@@ -74,6 +74,11 @@ class StoreData {
         }
         print 'DotDev';
     }
+}
+
+if (count($argv) != 2) {
+    echo "Usage: The script expects the `option` parameter to be passed in.\n\n";
+    exit;
 }
 
 $run = new StoreData();
