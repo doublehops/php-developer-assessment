@@ -120,7 +120,7 @@ class StoreData
      */
     protected function sortOrdersByTotal($orders)
     {
-        usort($orders, function ($item1, $item2) {
+        usort($orders, function ($item2, $item1) {
             return $item1['total'] <=> $item2['total'];
         });
 
