@@ -109,7 +109,7 @@ class StoreData
         $orders = $this->addOrderTotalOrders($this->orders, $this->order_items);
         $orders = $this->sortOrdersByTotal($orders);
 
-        die(var_dump($orders));
+        return $orders;
     }
 
     /**
@@ -162,12 +162,35 @@ class StoreData
         if ($option == StoreData::RETURN_SORT_BY_HIGHEST_VALUE) {
             // return orders sorted by highest value. Be sure to include the order total in the response
             $data = $this->getOrdersByHighestValue();
+            $this->outputData($data);
         } elseif ($option = 2) {
             // return orders sorted by date
         } elseif ($option = 3) {
             // return orders without items
         }
         print 'DotDev';
+    }
+
+    /**
+     * Format data to the expected format and output.
+     *
+     * @param array $orders
+     */
+    protected function outputData($orders)
+    {
+        $output = [];
+
+        foreach ($orders as $order) {
+            $output[$order['id']] = ['date' => $order['dateOrdered'],
+                                     'total' => $order['total'],
+                                     'customer' => '',
+                                     'order_items' => '',
+            ];
+        }
+
+
+        dd($output);
+        echo json_encode($output);
     }
 }
 
