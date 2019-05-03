@@ -10,6 +10,11 @@
 */
 
 class StoreData {
+
+    const RETURN_SORT_BY_HIGHEST_VALUE = 1;
+    const RETURN_SORT_BY_DATE = 1;
+    const RETURN_FILTER_WITHOUT_ITEMS = 1;
+
     function __construct() {
     }
 
@@ -80,6 +85,18 @@ if (count($argv) != 2) {
     echo "Usage: The script expects the `option` parameter to be passed in.\n\n";
     exit;
 }
+
+$option = (int) $argv[1];
+
+// Check that option passed in is a valid value.
+if (!in_array($option, [StoreData::RETURN_SORT_BY_HIGHEST_VALUE,
+                        StoreData::RETURN_SORT_BY_DATE,
+                        StoreData::RETURN_FILTER_WITHOUT_ITEMS,
+   ])) {
+    echo "Error: This passed in option must be a value of either 1, 2 or 3.\n\n";
+    exit;
+}
+
 
 $run = new StoreData();
 $run->formatData($option);
