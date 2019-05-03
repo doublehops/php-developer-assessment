@@ -7,6 +7,8 @@
 * Remarks:
 *   - Modules
 *     - Curly braces on class and method declarations have been put on a new line to adhere to PSR-2 standard.
+*     - Removed casting StoreData objects to arrays to allow usage of the many PHP array funtions. I see 
+*           no see case to have them cast as objects in this application.
 *   - Errors
 */
 
@@ -23,14 +25,14 @@ class StoreData
 
     public function loadData ()
     {
-        $customers = (object) [
+        $customers = [
             ['id' => 'BQYLCQ0CCwIOBgYNBAcACw', 'name' => 'Bob'],
             ['id' => 'CQwPDAkDDAQLBQsOBAcMBw', 'name' => 'Jan'],
             ['id' => 'AgsIBAsFAwYCCw8GBAINAQ', 'name' => 'Steve'],
             ['id' => 'DAEFDQwPDwMCCwULBAAMDg', 'name' => 'Fred'],
             ['id' => 'DQkCAAYHAAMJBA4LBAUOCg', 'name' => 'Robot']
         ];
-        $orders = (object) [
+        $orders = [
             ['id' => 'DwsNDQ4JDQEEBQIJBAwNBA', 'customerId' => 'BQYLCQ0CCwIOBgYNBAcACw', 'dateOrdered' => 1506476504],
             ['id' => 'DwsPBQ0BAA0BBwwMBAoECA', 'customerId' => 'BQYLCQ0CCwIOBgYNBAcACw', 'dateOrdered' => 1506480104],
             ['id' => 'DAEFCwUAAgQPAQIIBA4IBA', 'customerId' => 'CQwPDAkDDAQLBQsOBAcMBw', 'dateOrdered' => 1506562904],
@@ -38,7 +40,7 @@ class StoreData
             ['id' => 'DAMGAg8GCggLBwkJBAoECg', 'customerId' => 'AgsIBAsFAwYCCw8GBAINAQ', 'dateOrdered' => 1509068504],
             ['id' => 'CQALBwoDAw0AAQgHBAEJBQ', 'customerId' => 'DAEFDQwPDwMCCwULBAAMDg', 'dateOrdered' => 1538012504]
         ];
-        $order_items = (object) [
+        $order_items = [
             ['id' => 'DwsNDQ4JDQEEBQIJBAwNBA', 'items' => [
                 'id' => 'CgkCDwwDDgYODgYFBAwKAQ', 'value' => 10.00,  'name' => 'b0a8b6f820479900e34d34f6b8a4af73',
                 'id' => 'DQcJBAYFCAoCBAYJBAIGDQ', 'value' => 0.55,   'name' => 'cf3298bb5cbfd41aa44ba18b4f305a36',
@@ -75,7 +77,7 @@ class StoreData
     public function formatData ($option)
     {
         // All data should be returned as formatted JSON.
-        if ($option = 1) {
+        if ($option == StoreData::RETURN_SORT_BY_HIGHEST_VALUE) {
             // return orders sorted by highest value. Be sure to include the order total in the response
         } elseif ($option = 2) {
             // return orders sorted by date
