@@ -21,15 +21,15 @@ class StoreData
     protected $customers;
     protected $orders;
     protected $order_items;
-    protected $items;
 
     function __construct()
     {
+        $this->loadData();
     }
 
     public function loadData()
     {
-        $customers = [
+        $this->customers = [
             ['id' => 'BQYLCQ0CCwIOBgYNBAcACw', 'name' => 'Bob'],
             ['id' => 'CQwPDAkDDAQLBQsOBAcMBw', 'name' => 'Jan'],
             ['id' => 'AgsIBAsFAwYCCw8GBAINAQ', 'name' => 'Steve'],
@@ -37,7 +37,7 @@ class StoreData
             ['id' => 'DQkCAAYHAAMJBA4LBAUOCg', 'name' => 'Robot']
         ];
 
-        $orders = [
+        $this->orders = [
             ['id' => 'DwsNDQ4JDQEEBQIJBAwNBA', 'customerId' => 'BQYLCQ0CCwIOBgYNBAcACw', 'dateOrdered' => 1506476504],
             ['id' => 'DwsPBQ0BAA0BBwwMBAoECA', 'customerId' => 'BQYLCQ0CCwIOBgYNBAcACw', 'dateOrdered' => 1506480104],
             ['id' => 'DAEFCwUAAgQPAQIIBA4IBA', 'customerId' => 'CQwPDAkDDAQLBQsOBAcMBw', 'dateOrdered' => 1506562904],
@@ -46,40 +46,38 @@ class StoreData
             ['id' => 'CQALBwoDAw0AAQgHBAEJBQ', 'customerId' => 'DAEFDQwPDwMCCwULBAAMDg', 'dateOrdered' => 1538012504]
         ];
 
-        $order_items = [
+        $this->order_items = [
             ['id' => 'DwsNDQ4JDQEEBQIJBAwNBA', 'items' => [
-                'id' => 'CgkCDwwDDgYODgYFBAwKAQ', 'value' => 10.00,  'name' => 'b0a8b6f820479900e34d34f6b8a4af73',
-                'id' => 'DQcJBAYFCAoCBAYJBAIGDQ', 'value' => 0.55,   'name' => 'cf3298bb5cbfd41aa44ba18b4f305a36',
-                'id' => 'BwEOBwgNDQ4NCQkHBA8IDA', 'value' => 101.00, 'name' => 'ecbdb882ae865a07d87611437fda0772'
+                    ['id' => 'CgkCDwwDDgYODgYFBAwKAQ', 'value' => 10.00,  'name' => 'b0a8b6f820479900e34d34f6b8a4af73'],
+                    ['id' => 'DQcJBAYFCAoCBAYJBAIGDQ', 'value' => 0.55,   'name' => 'cf3298bb5cbfd41aa44ba18b4f305a36'],
+                    ['id' => 'BwEOBwgNDQ4NCQkHBA8IDA', 'value' => 101.00, 'name' => 'ecbdb882ae865a07d87611437fda0772']
                 ]
             ],
             ['id' => 'DwsPBQ0BAA0BBwwMBAoECA', 'items' => [
-                'id' => 'CgkCDwwDDgYODgYFBAwKAQ', 'value' => 90.00,  'name' => 'b0a8b6f820479900e34d34f6b8a4af73',
-                'id' => 'DQcJBAYFCAoCBAYJBAIGDQ', 'value' => 0.55,   'name' => 'cf3298bb5cbfd41aa44ba18b4f305a36',
-                'id' => 'BwEOBwgNDQ4NCQkHBA8IDA', 'value' => 101.00, 'name' => 'ecbdb882ae865a07d87611437fda0772'
+                    ['id' => 'CgkCDwwDDgYODgYFBAwKAQ', 'value' => 90.00,  'name' => 'b0a8b6f820479900e34d34f6b8a4af73'],
+                    ['id' => 'DQcJBAYFCAoCBAYJBAIGDQ', 'value' => 0.55,   'name' => 'cf3298bb5cbfd41aa44ba18b4f305a36'],
+                    ['id' => 'BwEOBwgNDQ4NCQkHBA8IDA', 'value' => 101.00, 'name' => 'ecbdb882ae865a07d87611437fda0772']
                 ]
             ],
             ['id' => 'DAEFCwUAAgQPAQIIBA4IBA', 'items' => [
-                'id' => 'CgkCDwwDDgYODgYFBAwKAQ', 'value' => 3.00,  'name' => 'b0a8b6f820479900e34d34f6b8a4af73',
-                'id' => 'DQcJBAYFCAoCBAYJBAIGDQ', 'value' => 0.55,  'name' => 'cf3298bb5cbfd41aa44ba18b4f305a36',
-                'id' => 'BwEOBwgNDQ4NCQkHBA8IDA', 'value' => 15.00, 'name' => 'ecbdb882ae865a07d87611437fda0772'
+                    ['id' => 'CgkCDwwDDgYODgYFBAwKAQ', 'value' => 3.00,  'name' => 'b0a8b6f820479900e34d34f6b8a4af73'],
+                    ['id' => 'DQcJBAYFCAoCBAYJBAIGDQ', 'value' => 0.55,  'name' => 'cf3298bb5cbfd41aa44ba18b4f305a36'],
+                    ['id' => 'BwEOBwgNDQ4NCQkHBA8IDA', 'value' => 15.00, 'name' => 'ecbdb882ae865a07d87611437fda0772']
                 ]
             ],
             ['id' => 'BAUNCAUAAQYMDgULBAMDAQ', 'items' => [
-                'id' => 'CgkCDwwDDgYODgYFBAwKAQ', 'value' => 10.00,  'name' => 'b0a8b6f820479900e34d34f6b8a4af73',
-                'id' => 'DQcJBAYFCAoCBAYJBAIGDQ', 'value' => 0.55,   'name' => 'cf3298bb5cbfd41aa44ba18b4f305a36',
-                'id' => 'BwEOBwgNDQ4NCQkHBA8IDA', 'value' => 101.00, 'name' => 'ecbdb882ae865a07d87611437fda0772'
+                    ['id' => 'CgkCDwwDDgYODgYFBAwKAQ', 'value' => 10.00,  'name' => 'b0a8b6f820479900e34d34f6b8a4af73'],
+                    ['id' => 'DQcJBAYFCAoCBAYJBAIGDQ', 'value' => 0.55,   'name' => 'cf3298bb5cbfd41aa44ba18b4f305a36'],
+                    ['id' => 'BwEOBwgNDQ4NCQkHBA8IDA', 'value' => 101.00, 'name' => 'ecbdb882ae865a07d87611437fda0772']
                 ]
             ],
             ['id' => 'DAMGAg8GCggLBwkJBAoECg', 'items' => [
-                'id' => 'CgkCDwwDDgYODgYFBAwKAQ', 'value' => 32.00,  'name' => 'b0a8b6f820479900e34d34f6b8a4af73',
-                'id' => 'DQcJBAYFCAoCBAYJBAIGDQ', 'value' => 0.55,   'name' => 'cf3298bb5cbfd41aa44ba18b4f305a36',
-                'id' => 'BwEOBwgNDQ4NCQkHBA8IDA', 'value' => 101.00, 'name' => 'ecbdb882ae865a07d87611437fda0772'
+                    ['id' => 'CgkCDwwDDgYODgYFBAwKAQ', 'value' => 32.00,  'name' => 'b0a8b6f820479900e34d34f6b8a4af73'],
+                    ['id' => 'DQcJBAYFCAoCBAYJBAIGDQ', 'value' => 0.55,   'name' => 'cf3298bb5cbfd41aa44ba18b4f305a36'],
+                    ['id' => 'BwEOBwgNDQ4NCQkHBA8IDA', 'value' => 101.00, 'name' => 'ecbdb882ae865a07d87611437fda0772']
                 ]
             ]
         ];
-
-        return [$customers, $orders, $order_items];
     }
 
     /**
@@ -93,13 +91,8 @@ class StoreData
     protected function getOrderItemsByOrderId($orderId)
     {
         foreach ($this->order_items as $items) {
-            die(var_dump($this->order_items));
             if ($items['id'] === $orderId) {
-                foreach ($items as $item) {
-                    var_dump($item);
-                }
-                exit;
-                return $items;
+                return $items['items'];
             }
         }
 
@@ -121,28 +114,33 @@ class StoreData
     /**
      * Get order values.
      *
-     * @param array $orderItems
+     * @param array $orders
+     * @param array $order_items
      * @return array
      */
     protected function addOrderTotalOrders($orders, $order_items)
     {
-        list($customers, $orders, $order_items) = $this->loadData();
-        die(var_dump($order_items));
-        $updatedOrders = $orders;
+        $updatedOrders = [];
 
         foreach ($orders as $order) {
             $orderTotal = 0;
             $orderItems = $this->getOrderItemsByOrderId($order['id']);
             foreach ($orderItems as $item) {
-                $orderTotal = $item['value'];
+                $orderTotal += $item['value'];
             }
-            $updatedOrders['id']['orderTotal'] = $orderTotal;
+            $order['total'] = $orderTotal;
+            $updatedOrders[] = $order;
         }
 
-        return $updatedOrder;
+        return $updatedOrders;
     }
 
-    public function formatData ($option)
+    /**
+     * Format data according to option supplied. Return output in JSON format.
+     *
+     * @param integer $option
+     */
+    public function formatData($option)
     {
         // All data should be returned as formatted JSON.
         if ($option == StoreData::RETURN_SORT_BY_HIGHEST_VALUE) {
@@ -155,6 +153,11 @@ class StoreData
         }
         print 'DotDev';
     }
+}
+
+function dd($obj)
+{
+    die(var_dump($obj));
 }
 
 if (count($argv) != 2) {
