@@ -107,8 +107,24 @@ class StoreData
     public function getOrdersByHighestValue()
     {
         $orders = $this->addOrderTotalOrders($this->orders, $this->order_items);
+        $orders = $this->sortOrdersByTotal($orders);
 
         die(var_dump($orders));
+    }
+
+    /**
+     * Sort orders byt their total.
+     *
+     * @param array $orders
+     * @return array
+     */
+    protected function sortOrdersByTotal($orders)
+    {
+        usort($orders, function ($item1, $item2) {
+            return $item1['total'] <=> $item2['total'];
+        });
+
+        return $orders;
     }
 
     /**
