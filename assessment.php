@@ -15,8 +15,8 @@
 class StoreData
 {
     const RETURN_SORT_BY_HIGHEST_VALUE = 1;
-    const RETURN_SORT_BY_DATE = 1;
-    const RETURN_FILTER_WITHOUT_ITEMS = 1;
+    const RETURN_SORT_BY_DATE = 2;
+    const RETURN_FILTER_WITHOUT_ITEMS = 3;
 
     function __construct()
     {
@@ -72,6 +72,39 @@ class StoreData
                 ]
             ]
         ];
+
+        /**
+         * Get orders by highest value.
+         *
+         * @return array
+         */
+        public function getOrdersByHighestValue()
+        {
+            $orders = $this->addOrderTotalOrders($this->orders, $this->order_items);
+
+            die(var_dump($orders));
+        }
+
+        /**
+         * Get order values.
+         *
+         * @param array $orderItems
+         * @return array
+         */
+        protected function addOrderTotalOrders($orders, $order_items)
+        {
+            $updatedOrder = $order;
+
+            foreach ($orders as $order) {
+                $orderTotal = 0;
+                foreach ($orderItems[$order['id'] as $item) {
+                    $orderTotal = $item['value'];
+                }
+                $updatedOrder['id']['orderTotal'] = $orderTotal;
+            }
+
+            return $updatedOrder;
+        }
     }
 
     public function formatData ($option)
