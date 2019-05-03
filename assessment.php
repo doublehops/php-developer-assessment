@@ -6,19 +6,23 @@
 * Time taken: 0h 0m
 * Remarks:
 *   - Modules
+*     - Curly braces on class and method declarations have been put on a new line to adhere to PSR-2 standard.
 *   - Errors
 */
 
-class StoreData {
-
+class StoreData
+{
     const RETURN_SORT_BY_HIGHEST_VALUE = 1;
     const RETURN_SORT_BY_DATE = 1;
     const RETURN_FILTER_WITHOUT_ITEMS = 1;
 
-    function __construct() {
+    function __construct()
+    {
+
     }
 
-    public function loadData () {
+    public function loadData ()
+    {
         $customers = (object) [
             ['id' => 'BQYLCQ0CCwIOBgYNBAcACw', 'name' => 'Bob'],
             ['id' => 'CQwPDAkDDAQLBQsOBAcMBw', 'name' => 'Jan'],
@@ -68,7 +72,8 @@ class StoreData {
         ];
     }
 
-    public function formatData ($option) {
+    public function formatData ($option)
+    {
         // All data should be returned as formatted JSON.
         if ($option = 1) {
             // return orders sorted by highest value. Be sure to include the order total in the response
