@@ -18,12 +18,16 @@ class StoreData
     const RETURN_SORT_BY_DATE = 2;
     const RETURN_FILTER_WITHOUT_ITEMS = 3;
 
+    protected $customers;
+    protected $orders;
+    protected $order_items;
+    protected $items;
+
     function __construct()
     {
-
     }
 
-    public function loadData ()
+    public function loadData()
     {
         $customers = [
             ['id' => 'BQYLCQ0CCwIOBgYNBAcACw', 'name' => 'Bob'],
@@ -32,6 +36,7 @@ class StoreData
             ['id' => 'DAEFDQwPDwMCCwULBAAMDg', 'name' => 'Fred'],
             ['id' => 'DQkCAAYHAAMJBA4LBAUOCg', 'name' => 'Robot']
         ];
+
         $orders = [
             ['id' => 'DwsNDQ4JDQEEBQIJBAwNBA', 'customerId' => 'BQYLCQ0CCwIOBgYNBAcACw', 'dateOrdered' => 1506476504],
             ['id' => 'DwsPBQ0BAA0BBwwMBAoECA', 'customerId' => 'BQYLCQ0CCwIOBgYNBAcACw', 'dateOrdered' => 1506480104],
@@ -40,6 +45,7 @@ class StoreData
             ['id' => 'DAMGAg8GCggLBwkJBAoECg', 'customerId' => 'AgsIBAsFAwYCCw8GBAINAQ', 'dateOrdered' => 1509068504],
             ['id' => 'CQALBwoDAw0AAQgHBAEJBQ', 'customerId' => 'DAEFDQwPDwMCCwULBAAMDg', 'dateOrdered' => 1538012504]
         ];
+
         $order_items = [
             ['id' => 'DwsNDQ4JDQEEBQIJBAwNBA', 'items' => [
                 'id' => 'CgkCDwwDDgYODgYFBAwKAQ', 'value' => 10.00,  'name' => 'b0a8b6f820479900e34d34f6b8a4af73',
@@ -73,38 +79,67 @@ class StoreData
             ]
         ];
 
-        /**
-         * Get orders by highest value.
-         *
-         * @return array
-         */
-        public function getOrdersByHighestValue()
-        {
-            $orders = $this->addOrderTotalOrders($this->orders, $this->order_items);
+        return [$customers, $orders, $order_items];
+    }
 
-            die(var_dump($orders));
-        }
-
-        /**
-         * Get order values.
-         *
-         * @param array $orderItems
-         * @return array
-         */
-        protected function addOrderTotalOrders($orders, $order_items)
-        {
-            $updatedOrder = $order;
-
-            foreach ($orders as $order) {
-                $orderTotal = 0;
-                foreach ($orderItems[$order['id'] as $item) {
-                    $orderTotal = $item['value'];
+    /**
+     * Get order items by order id.
+     *
+     * @param string orderId
+     * @return array
+     *
+     * @todo: Find an array function that will search for a value in a multi-dimensional array to avoid looping all values.
+     */
+    protected function getOrderItemsByOrderId($orderId)
+    {
+        foreach ($this->order_items as $items) {
+            die(var_dump($this->order_items));
+            if ($items['id'] === $orderId) {
+                foreach ($items as $item) {
+                    var_dump($item);
                 }
-                $updatedOrder['id']['orderTotal'] = $orderTotal;
+                exit;
+                return $items;
             }
-
-            return $updatedOrder;
         }
+
+        return [];
+    }
+
+    /**
+     * Get orders by highest value.
+     *
+     * @return array
+     */
+    public function getOrdersByHighestValue()
+    {
+        $orders = $this->addOrderTotalOrders($this->orders, $this->order_items);
+
+        die(var_dump($orders));
+    }
+
+    /**
+     * Get order values.
+     *
+     * @param array $orderItems
+     * @return array
+     */
+    protected function addOrderTotalOrders($orders, $order_items)
+    {
+        list($customers, $orders, $order_items) = $this->loadData();
+        die(var_dump($order_items));
+        $updatedOrders = $orders;
+
+        foreach ($orders as $order) {
+            $orderTotal = 0;
+            $orderItems = $this->getOrderItemsByOrderId($order['id']);
+            foreach ($orderItems as $item) {
+                $orderTotal = $item['value'];
+            }
+            $updatedOrders['id']['orderTotal'] = $orderTotal;
+        }
+
+        return $updatedOrder;
     }
 
     public function formatData ($option)
@@ -112,6 +147,7 @@ class StoreData
         // All data should be returned as formatted JSON.
         if ($option == StoreData::RETURN_SORT_BY_HIGHEST_VALUE) {
             // return orders sorted by highest value. Be sure to include the order total in the response
+            $data = $this->getOrdersByHighestValue();
         } elseif ($option = 2) {
             // return orders sorted by date
         } elseif ($option = 3) {
