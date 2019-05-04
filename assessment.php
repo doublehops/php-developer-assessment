@@ -3,13 +3,19 @@
 * DotDev - PHP Developer Test
 * Author: Damien Buttler
 * Date Completed:
-* Time taken: 0h 0m
+* Time taken: 3h 0m
 * Remarks:
 *   - Modules
-*     - Curly braces on class and method declarations have been put on a new line to adhere to PSR-2 standard.
-*     - Removed casting StoreData objects to arrays to allow usage of the many PHP array funtions. I see 
-*           no see case to have them cast as objects in this application.
 *   - Errors
+*     - The order item data items were not declared as individual arrays, resulting the each one being overwritten by the last.
+*
+*   - Notes
+*     - Using constants for allowed input parameters to make the code mode readable.
+*     - Curly braces on class and method declarations have been put on a new line to adhere to PSR-2 standard.
+*     - Modified casting of StoreData data from objects to arrays to allow usage of the many PHP array funtions. I see 
+*           no see case to have them cast as objects in this application.
+*     - The application is to be run from the shell. This command will format the output into JSON to make it readable:
+*          php assessment.php 3 | python -m json.tool
 */
 
 class StoreData
@@ -85,8 +91,6 @@ class StoreData
      *
      * @param string orderId
      * @return array
-     *
-     * @todo: Find an array function that will search for a value in a multi-dimensional array to avoid looping all values.
      */
     protected function getOrderItemsByOrderId($orderId)
     {
@@ -121,7 +125,7 @@ class StoreData
      *
      * @return array
      */
-    public function getOrdersByHighestValue()
+    protected function getOrdersByHighestValue()
     {
         $orders = $this->addOrderTotalOrders($this->orders, $this->order_items);
         $orders = $this->sortOrdersByTotal($orders);
@@ -134,7 +138,7 @@ class StoreData
      *
      * @return array
      */
-    public function getOrdersByDate()
+    protected function getOrdersByDate()
     {
         $orders = $this->sortOrdersByDate($this->orders);
 
@@ -146,7 +150,7 @@ class StoreData
      *
      * @return array
      */
-    public function getOrdersWithoutItems()
+    protected function getOrdersWithoutItems()
     {
         $orders = [];
 
@@ -223,13 +227,13 @@ class StoreData
     public function formatData($option)
     {
         // All data should be returned as formatted JSON.
-        if ($option == StoreData::RETURN_SORT_BY_HIGHEST_VALUE) {
+        if ($option == self::RETURN_SORT_BY_HIGHEST_VALUE) {
             // return orders sorted by highest value. Be sure to include the order total in the response
             $data = $this->getOrdersByHighestValue();
-        } elseif ($option == 2) {
+        } elseif ($option == self::RETURN_SORT_BY_DATE) {
             // return orders sorted by date
             $data = $this->getOrdersByDate();
-        } elseif ($option == 3) {
+        } elseif ($option == self::RETURN_FILTER_WITHOUT_ITEMS) {
             // return orders without items
             $data = $this->getOrdersWithoutItems();
         }
@@ -253,7 +257,6 @@ class StoreData
                                      'order_items' => $this->getOrderItemsByOrderId($order['id']),
             ];
         }
-
 
         echo json_encode($output);
     }
