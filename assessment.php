@@ -262,11 +262,6 @@ class StoreData
     }
 }
 
-function dd($obj)
-{
-    die(var_dump($obj));
-}
-
 if (count($argv) != 2) {
     echo "Usage: The script expects the `option` parameter to be passed in.\n\n";
     exit;
