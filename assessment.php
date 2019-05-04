@@ -236,6 +236,8 @@ class StoreData
         } elseif ($option == self::RETURN_FILTER_WITHOUT_ITEMS) {
             // return orders without items
             $data = $this->getOrdersWithoutItems();
+        } else {
+            throw new Exception('You must pass in a valid option.');
         }
 
         $this->outputData($data);
