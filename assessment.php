@@ -100,6 +100,19 @@ class StoreData
     }
 
     /**
+     * Find customer by id.
+     *
+     * @param string $customerId
+     * @return array
+     */
+    protected function findCustomerById($customerId)
+    {
+        $key = array_search($customerId, array_column($this->customers, 'id'));
+
+        return $this->customers[$key];
+    }
+
+    /**
      * Get orders by highest value.
      *
      * @return array
@@ -183,8 +196,8 @@ class StoreData
         foreach ($orders as $order) {
             $output[$order['id']] = ['date' => $order['dateOrdered'],
                                      'total' => $order['total'],
-                                     'customer' => '',
-                                     'order_items' => '',
+                                     'customer' => $this->findCustomerById($order['customerId']),
+                                     'order_items' => $this->getOrderItemsByOrderId($order['id']),
             ];
         }
 
