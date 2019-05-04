@@ -92,6 +92,10 @@ class StoreData
     {
         $key = array_search($orderId, array_column($this->order_items, 'id'));
 
+        if ($key === false) {
+            return [];
+        }
+
         return $this->order_items[$key]['items'];
     }
 
@@ -104,6 +108,10 @@ class StoreData
     protected function getCustomerById($customerId)
     {
         $key = array_search($customerId, array_column($this->customers, 'id'));
+
+        if ($key === false) {
+            return [];
+        }
 
         return $this->customers[$key];
     }
@@ -129,6 +137,26 @@ class StoreData
     public function getOrdersByDate()
     {
         $orders = $this->sortOrdersByDate($this->orders);
+
+        return $orders;
+    }
+
+    /**
+     * Get orders that have no items.
+     *
+     * @return array
+     */
+    public function getOrdersWithoutItems()
+    {
+        $orders = [];
+
+        foreach ($this->orders as $order) {
+            $key = array_search($order['id'], array_column($this->order_items, 'id'));
+
+            if ($key === false) {
+                $orders[] = $order;
+            }
+        }
 
         return $orders;
     }
@@ -199,11 +227,13 @@ class StoreData
             // return orders sorted by highest value. Be sure to include the order total in the response
             $data = $this->getOrdersByHighestValue();
             $this->outputData($data);
-        } elseif ($option = 2) {
+        } elseif ($option == 2) {
             // return orders sorted by date
             $data = $this->getOrdersByDate();
             $this->outputData($data);
-        } elseif ($option = 3) {
+        } elseif ($option == 3) {
+            $data = $this->getOrdersWithoutItems();
+            $this->outputData($data);
             // return orders without items
         }
         print 'DotDev';
@@ -220,7 +250,7 @@ class StoreData
 
         foreach ($orders as $order) {
             $output[$order['id']] = ['date' => $order['dateOrdered'],
-                                     'total' => $order['total'],
+                                     'total' => $order['total'] ?? 0,
                                      'customer' => $this->getCustomerById($order['customerId']),
                                      'order_items' => $this->getOrderItemsByOrderId($order['id']),
             ];
