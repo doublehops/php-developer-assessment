@@ -122,6 +122,33 @@ class StoreData
     }
 
     /**
+     * Get orders by date.
+     *
+     * @return array
+     */
+    public function getOrdersByDate()
+    {
+        $orders = $this->sortOrdersByDate($this->orders);
+
+        return $orders;
+    }
+
+    /**
+     * Sort orders by their total.
+     *
+     * @param array $orders
+     * @return array
+     */
+    protected function sortOrdersByDate($orders)
+    {
+        usort($orders, function ($item2, $item1) {
+            return $item2['dateOrdered'] <=> $item1['dateOrdered'];
+        });
+
+        return $orders;
+    }
+
+    /**
      * Sort orders by their total.
      *
      * @param array $orders
@@ -174,6 +201,8 @@ class StoreData
             $this->outputData($data);
         } elseif ($option = 2) {
             // return orders sorted by date
+            $data = $this->getOrdersByDate();
+            $this->outputData($data);
         } elseif ($option = 3) {
             // return orders without items
         }
