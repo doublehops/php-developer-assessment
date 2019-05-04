@@ -226,17 +226,15 @@ class StoreData
         if ($option == StoreData::RETURN_SORT_BY_HIGHEST_VALUE) {
             // return orders sorted by highest value. Be sure to include the order total in the response
             $data = $this->getOrdersByHighestValue();
-            $this->outputData($data);
         } elseif ($option == 2) {
             // return orders sorted by date
             $data = $this->getOrdersByDate();
-            $this->outputData($data);
         } elseif ($option == 3) {
-            $data = $this->getOrdersWithoutItems();
-            $this->outputData($data);
             // return orders without items
+            $data = $this->getOrdersWithoutItems();
         }
-        print 'DotDev';
+
+        $this->outputData($data);
     }
 
     /**
@@ -257,7 +255,6 @@ class StoreData
         }
 
 
-        dd($output);
         echo json_encode($output);
     }
 }
