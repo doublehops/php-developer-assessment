@@ -134,7 +134,7 @@ class StoreData
     }
 
     /**
-     * Sort orders by their total.
+     * Sort orders by their date.
      *
      * @param array $orders
      * @return array
