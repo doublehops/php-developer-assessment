@@ -90,13 +90,9 @@ class StoreData
      */
     protected function getOrderItemsByOrderId($orderId)
     {
-        foreach ($this->order_items as $items) {
-            if ($items['id'] === $orderId) {
-                return $items['items'];
-            }
-        }
+        $key = array_search($orderId, array_column($this->order_items, 'id'));
 
-        return [];
+        return $this->order_items[$key]['items'];
     }
 
     /**
