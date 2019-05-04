@@ -105,7 +105,7 @@ class StoreData
      * @param string $customerId
      * @return array
      */
-    protected function findCustomerById($customerId)
+    protected function getCustomerById($customerId)
     {
         $key = array_search($customerId, array_column($this->customers, 'id'));
 
@@ -196,7 +196,7 @@ class StoreData
         foreach ($orders as $order) {
             $output[$order['id']] = ['date' => $order['dateOrdered'],
                                      'total' => $order['total'],
-                                     'customer' => $this->findCustomerById($order['customerId']),
+                                     'customer' => $this->getCustomerById($order['customerId']),
                                      'order_items' => $this->getOrderItemsByOrderId($order['id']),
             ];
         }
